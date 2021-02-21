@@ -53,7 +53,7 @@ const SignUp = () => {
             setSignUpSuccess(true);
           })
           .catch((error) => {
-            console.error(error.response);
+            console.dir(error.response);
             setSignUpError(error.response.data);
           })
           .finally(() => {});
@@ -67,7 +67,7 @@ const SignUp = () => {
   }
 
   if (data) {
-    return <Redirect to="/workspace/channel" />;
+    return <Redirect to="/workspace/imlack/channel/일반" />;
   }
 
   return (
