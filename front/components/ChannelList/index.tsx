@@ -46,14 +46,14 @@ const ChannelList: FC = () => {
       return setCountList((list) => {
         return {
           ...list,
-          [`c-${data.channelId}`]: (list[`c-${data.channelId}`] || 0) + 1,
+          [`c-${data.ChannelId}`]: (list[`c-${data.ChannelId}`] || 0) + 1,
         };
       });
     }
     setCountList((list) => {
       return {
         ...list,
-        [`c-${data.channelId}`]: list[`c-${data.channelId}`] || 0,
+        [`c-${data.ChannelId}`]: list[`c-${data.ChannelId}`] || 0,
       };
     });
   };

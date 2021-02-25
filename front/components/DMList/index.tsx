@@ -1,5 +1,6 @@
 // import useSocket from '@hooks/useSocket';
 import { CollapseButton } from '@components/DMList/styles';
+import useSocket from '@hooks/useSocket';
 import { IChannel, IDM, IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import React, { FC, useCallback, useEffect, useState } from 'react';
@@ -16,7 +17,7 @@ const DMList: FC = () => {
     userData ? `/api/workspaces/${workspace}/members` : null,
     fetcher,
   );
-  // const [socket] = useSocket(workspace);
+  const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [countList, setCountList] = useState<{ [key: string]: number }>({});
   const [onlineList, setOnlineList] = useState<number[]>([]);
@@ -42,7 +43,7 @@ const DMList: FC = () => {
     setCountList((list) => {
       return {
         ...list,
-        [data.senderId]: list[data.senderId] ? list[data.senderId] + 1 : 1,
+        [data.SenderId]: list[data.SenderId] ? list[data.SenderId] + 1 : 1,
       };
     });
   };
@@ -53,18 +54,18 @@ const DMList: FC = () => {
     setCountList({});
   }, [workspace]);
 
-  // useEffect(() => {
-  //   socket?.on('onlineList', (data: number[]) => {
-  //     setOnlineList(data);
-  //   });
-  //   socket?.on('dm', onMessage);
-  //   console.log('socket on dm', socket?.hasListeners('dm'), socket);
-  //   return () => {
-  //     socket?.off('dm', onMessage);
-  //     console.log('socket off dm', socket?.hasListeners('dm'));
-  //     socket?.off('onlineList');
-  //   };
-  // }, [socket]);
+  useEffect(() => {
+    socket?.on('onlineList', (data: number[]) => {
+      setOnlineList(data);
+    });
+    // socket?.on('dm', onMessage);
+    // console.log('socket on dm', socket?.hasListeners('dm'), socket);
+    return () => {
+      // socket?.off('dm', onMessage);
+      // console.log('socket off dm', socket?.hasListeners('dm'));
+      socket?.off('onlineList');
+    };
+  }, [socket]);
 
   return (
     <>
