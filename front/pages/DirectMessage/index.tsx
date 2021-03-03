@@ -69,27 +69,24 @@ const DirectMessage = () => {
     [chat, chatData, myData, userData, workspace, id],
   );
 
-  const onMessage = useCallback(
-    (data: IDM) => {
-      if (data.SenderId === Number(id) && myData.id !== Number(id)) {
-        mutateChat((chatData) => {
-          chatData?.[0].unshift(data);
-          return chatData;
-        }, false).then(() => {
-          if (scrollbarRef.current) {
-            if (
-              scrollbarRef.current.getScrollHeight() <
-              scrollbarRef.current.getScrollHeight() + scrollbarRef.current.getScrollTop() + 150
-            ) {
-              console.log('scrollTopBottom!', scrollbarRef.current?.getValues());
-              scrollbarRef.current.scrollToBottom();
-            }
+  const onMessage = useCallback((data: IDM) => {
+    if (data.SenderId === Number(id) && myData.id !== Number(id)) {
+      mutateChat((chatData) => {
+        chatData?.[0].unshift(data);
+        return chatData;
+      }, false).then(() => {
+        if (scrollbarRef.current) {
+          if (
+            scrollbarRef.current.getScrollHeight() <
+            scrollbarRef.current.getScrollHeight() + scrollbarRef.current.getScrollTop() + 150
+          ) {
+            console.log('scrollTopBottom!', scrollbarRef.current?.getValues());
+            scrollbarRef.current.scrollToBottom();
           }
-        });
-      }
-    },
-    [],
-  );
+        }
+      });
+    }
+  }, []);
 
   useEffect(() => {
     socket?.on('dm', onMessage);
