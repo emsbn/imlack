@@ -18,10 +18,13 @@ const SignUp = () => {
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
-  const onChangePassword = useCallback((e) => {
-    setParssword(e.target.value);
-    setMismatchError(e.target.value !== passwordCheck);
-  }, []);
+  const onChangePassword = useCallback(
+    (e) => {
+      setParssword(e.target.value);
+      setMismatchError(e.target.value !== passwordCheck);
+    },
+    [passwordCheck, setParssword],
+  );
 
   const onChangePasswordCheck = useCallback(
     (e) => {

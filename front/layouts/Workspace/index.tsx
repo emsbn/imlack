@@ -8,9 +8,6 @@ import fetcher from '@utils/fetcher';
 import gravatar from 'gravatar';
 import { toast } from 'react-toastify';
 
-const Channel = loadable(() => import('@pages/Channel'));
-const DirectMessage = loadable(() => import('@pages/DirectMessage'));
-
 import {
   AddButton,
   Channels,
@@ -39,6 +36,9 @@ import ChannelList from '@components/ChannelList';
 import DMList from '@components/DMList';
 import useSocket from '@hooks/useSocket';
 
+const Channel = loadable(() => import('@pages/Channel'));
+const DirectMessage = loadable(() => import('@pages/DirectMessage'));
+
 const Workspace: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
@@ -62,12 +62,12 @@ const Workspace: VFC = () => {
       console.log(socket);
       socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
     }
-  }, [channelData, userData]);
+  }, [socket, channelData, userData]);
   useEffect(() => {
     return () => {
       disconnect();
     };
-  }, [workspace, disconnect]);
+  }, [disconnect, workspace]);
 
   const onLogout = useCallback(() => {
     axios
